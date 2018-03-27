@@ -1,23 +1,21 @@
-package ru.lang3;
+package ru.lang3.parser;
 
-import java.io.* ;
- 
-class L3_Parser extends GenParser implements PARSER
+public class L3Parser extends GenParser implements Parser
 {
     String startSymbol() {return "#Prog" ;}
-    
-    String[] epsilon              = new String[] { } ;
+
+    public String[] epsilon              = new String[] { } ;
     String[] Decl_Prog            = new String[] {"#Decl", "#Prog"} ;
     String[] TypeDecl_TermDecl    = new String[] {"#TypeDecl", "#TermDecl"} ;
     String[] TypeDecl_rule        = new String[] {"VAR", "::", "#Type", ";"} ;
     String[] Type1_TypeOps        = new String[] {"#Type1", "#TypeOps"} ;
-    String[] Integer              = new String[] {"Integer"} ;
-    String[] Bool                 = new String[] {"Bool"} ;
+    public String[] Integer              = new String[] {"Integer"} ;
+    public String[] Bool                 = new String[] {"Bool"} ;
     String[] lbr_Type_rbr         = new String[] {"(", "#Type", ")"} ;
     String[] arrow_Type           = new String[] {"->", "#Type"} ;
     String[] TermDecl_rule        = new String[] {"VAR", "#Args", "=", "#Exp", ";"} ;
     String[] VAR_Args             = new String[] {"VAR", "#Args"} ;
-    String[] Exp1                 = new String[] {"#Exp1"} ;
+    public String[] Exp1                 = new String[] {"#Exp1"} ;
     String[] if_then_else_rule    = new String[] {"if", "#Exp", "then", "#Exp", "else", "#Exp"} ;
     String[] Exp2_Op1             = new String[] {"#Exp2", "#Op1"} ;
     String[] eq_rule              = new String[] {"==", "#Exp2"} ;
@@ -31,8 +29,8 @@ class L3_Parser extends GenParser implements PARSER
     String[] VAR                  = new String[] {"VAR"} ;
     String[] NUM                  = new String[] {"NUM"} ;
     String[] BOOLEAN              = new String[] {"BOOLEAN"} ;
-    String[] lbr_Exp_rbr          = new String[] {"(", "#Exp", ")"} ;
-    
+    public String[] lbr_Exp_rbr          = new String[] {"(", "#Exp", ")"} ;
+
     private void printError(String nonterm, String tokClass, String legalExpansions)
     {
         System.err.printf("An error has occured while parsing\n");
@@ -40,7 +38,7 @@ class L3_Parser extends GenParser implements PARSER
         System.err.printf("\t\tNot possible to expand %s to %s\n", nonterm, tokClass);
         System.err.printf("\t\tHint: if we expect %s we should next see %s%s\n\n", nonterm, legalExpansions.indexOf(" ") > -1 ? "one of " : "", legalExpansions);
     }
-    
+
     String[] tableEntry(String nonterm, String tokClass)
     {
         if (nonterm.equals("#Prog"))
@@ -442,7 +440,7 @@ class L3_Parser extends GenParser implements PARSER
                 return Exp5_Ops4;
             }
             else if (tokClass.equals(")"))
-            {    
+            {
                 return epsilon;
             }
             else if (tokClass.equals(";"))
@@ -503,19 +501,5 @@ class L3_Parser extends GenParser implements PARSER
         {
             return null;
         }
-    }
-}
-
-
-// For testing
-
-class L3_ParserDemo {
-
-    static PARSER L3_Parser = new L3_Parser() ;
-
-    public static void main (String[] args) throws Exception {
-    Reader reader = new BufferedReader (new FileReader (args[0])) ;
-    LEX_TOKEN_STREAM L3_Lexer = new CheckedSymbolLexer (new L3_Lexer (reader)) ;
-    TREE theTree = L3_Parser.parseTokenStream (L3_Lexer) ;
     }
 }

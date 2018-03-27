@@ -1,4 +1,4 @@
-package ru.lang3;
+package ru.lang3.lexer;
 
 // Thin wrapper for token streams: checks if a symbol token is 
 // among those of L3, and renames its lexical class to be the symbol itself.
@@ -7,11 +7,11 @@ package ru.lang3;
 
 import java.io.IOException;
 
-class CheckedSymbolLexer implements LEX_TOKEN_STREAM {
+public class CheckedSymbolLexer implements LexTokenStream {
 
     GenLexer tokStream ;
 
-    CheckedSymbolLexer (GenLexer tokStream) {
+    public CheckedSymbolLexer (GenLexer tokStream) {
 	this.tokStream = tokStream ;
     }
 
