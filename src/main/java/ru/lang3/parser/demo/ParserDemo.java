@@ -19,6 +19,6 @@ public class ParserDemo {
     public static void main (String[] args) throws Exception {
         Reader reader = new BufferedReader(new FileReader(args[0])) ;
         GenLexer demoLexer = new DemoLexer(reader) ;
-        Tree theTree = evenAndParser.parseTokenStream (demoLexer) ;
+        Tree theTree = evenAndParser.parseTokenStream(demoLexer) ;
     }
 }

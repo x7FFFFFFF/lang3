@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -43,6 +45,14 @@ public class LexerDemo {
     public static GenLexer getLexer(InputStream in) {
         Reader reader = new BufferedReader(new InputStreamReader(in)) ;
         return new L3Lexer(reader);
+    }
+
+
+    public static GenLexer getLexer(URL url, Class<? extends GenLexer> clz) throws IOException, URISyntaxException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        final Path path = Paths.get(url.toURI());
+        Reader reader = Files.newBufferedReader(path) ;
+        final Constructor<? extends GenLexer> constructor = clz.getConstructor(Reader.class);
+        return constructor.newInstance(reader);
     }
 
     public static GenLexer getLexer(Path path) throws IOException {

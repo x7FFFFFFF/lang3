@@ -9,23 +9,23 @@ import java.io.IOException;
 
 public class CheckedSymbolLexer implements LexTokenStream {
 
-    GenLexer tokStream ;
+    private GenLexer tokStream ;
 
     public CheckedSymbolLexer (GenLexer tokStream) {
 	this.tokStream = tokStream ;
     }
 
-    static String[] validTokens = new String[]
+    private static String[] validTokens = new String[]
 	{"::", "->", "=", "==", "<", "+", "-", "*"} ;
 
-    static String checkString (String s) throws UnknownSymbol {
+    private static String checkString(String s) throws UnknownSymbol {
 	for (int i=0; i<validTokens.length; i++) {
 	    if (s.equals(validTokens[i])) return s ;
 	}
 	throw new UnknownSymbol(s) ;
     }
 
-    static LexToken checkToken (LexToken t) throws UnknownSymbol {
+    private static LexToken checkToken(LexToken t) throws UnknownSymbol {
 	if (t != null && t.lexClass().equals("SYM")) {
 	    return new LexToken (t.value(), checkString(t.value())) ;
 	} else return t ;
@@ -54,7 +54,7 @@ public class CheckedSymbolLexer implements LexTokenStream {
 }
 
 class UnknownSymbol extends Exception {
-    public UnknownSymbol (String s) {
+    UnknownSymbol(String s) {
 	super ("Unknown symbolic token " + s) ;
     }
 }

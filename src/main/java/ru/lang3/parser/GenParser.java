@@ -23,7 +23,7 @@ public abstract class GenParser implements Parser {
     public Tree parseTokenStreamAs
             (LexTokenStream tokStream, String nonterm)
             throws Exception {
-        Stack theStack = new Stack() ;
+        Stack<STree> theStack = new Stack<>() ;
         STree rootNode = new STree (nonterm) ;
         theStack.push(rootNode) ;
         STree currNode ;
@@ -31,14 +31,14 @@ public abstract class GenParser implements Parser {
         LexToken currToken ;
         String currLexClass ;
         do {
-            currNode = (STree)(theStack.pop()) ;
+            currNode = theStack.pop();
             currLabel = currNode.getLabel() ;
             currToken = tokStream.peekProperToken() ;
             if (currToken == null) {
                 currLexClass = null ;
             } else {
                 currLexClass = currToken.lexClass() ;
-            } ;
+            }
             if (currNode.isTerminal()) {
                 // match expected terminal against input token
                 if (currLexClass != null &&
@@ -61,7 +61,7 @@ public abstract class GenParser implements Parser {
                     STree[] children = new STree[rhs.length] ;
                     for (int i=0; i<rhs.length; i++) {
                         children[i] = new STree(rhs[i]) ;
-                    } ;
+                    }
                     currNode.setRhsChildren(rhs,children) ;
                     for (int i=rhs.length-1; i>=0; i--) {
                         theStack.push(children[i]) ;
@@ -79,7 +79,7 @@ public abstract class GenParser implements Parser {
                     " found after parse completed.");
         } else {
             System.out.println ("Parse successful.") ;
-        } ;
+        }
         return rootNode ;
     }
 

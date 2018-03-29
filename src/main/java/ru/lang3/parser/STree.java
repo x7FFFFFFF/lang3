@@ -18,5 +18,5 @@ public class STree implements Tree {
     }
 
     // Constructors
-    STree (String label) {this.label = label ;}
+    public STree (String label) {this.label = label ;}
 }
