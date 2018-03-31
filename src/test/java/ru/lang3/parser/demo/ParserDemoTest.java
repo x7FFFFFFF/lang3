@@ -23,7 +23,6 @@ class ParserDemoTest {
         Parser evenAndParser = new EvenAndParser() ;
         Tree theTree = evenAndParser.parseTokenStream(demoLexer) ;
         System.out.println("theTree = " + theTree);
-        DrawTree.draw(theTree);
 
     }
 
@@ -33,7 +32,7 @@ class ParserDemoTest {
         Parser evenAndParser = new EvenAndParser() ;
         Tree theTree = evenAndParser.parseTokenStream(demoLexer) ;
         System.out.println("theTree = " + theTree);
-        DrawTree.draw(theTree);
+        DrawTreePanel.draw(theTree);
     }
 
 }
