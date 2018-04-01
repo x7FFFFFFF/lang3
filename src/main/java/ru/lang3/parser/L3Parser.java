@@ -3,7 +3,28 @@ package ru.lang3.parser;
 public class L3Parser extends GenParser implements Parser
 {
     String startSymbol() {return "#Prog" ;}
+/*
+*
+Prog ->e| Decl Prog
+Decl -> TypeDecl TermDecl
+TypeDecl -> VAR :: Type ;
+Type -> Type1 TypeOps
+Type1 -> Integer | Bool | ( Type )
+TypeOps ->e| -> Type
+TermDecl -> VAR Args = Exp ;
+Args ->e| VAR Args
+Exp -> Exp1 | if Exp then Exp else Exp
+Exp1 -> Exp2 Op1
+Op1 ->e| == Exp2 | < Exp2
+Exp2 -> Exp3 Ops2
+Ops2 ->e| + Exp3 Ops2 | - Exp3 Ops2
+Exp3 -> Exp4 Ops3
+Ops3 ->e| * Exp4 Ops3
+Exp4 -> Exp5 Ops4
+Ops4 ->e| Exp5 Ops4
+Exp5 -> VAR | NUM | BOOLEAN | ( Exp )
 
+*/
     public String[] epsilon              = new String[] { } ;
     String[] Decl_Prog            = new String[] {"#Decl", "#Prog"} ;
     String[] TypeDecl_TermDecl    = new String[] {"#TypeDecl", "#TermDecl"} ;

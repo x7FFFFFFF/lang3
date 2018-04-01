@@ -10,42 +10,49 @@ import java.io.Reader;
 
 public class GenLexer implements LexTokenStream {
 
-    Reader reader ;
+    private Reader reader ;
     // for reading characters from input
-    DFA[] acceptors ;
+    private DFA[] acceptors ;
     // array of acceptors for the lexical classes, in order of priority
+
+    private int row = 0, length = 0;
 
     public GenLexer (Reader reader, DFA[] acceptors) {
         this.reader = reader ;
         this.acceptors = acceptors ;
     }
 
-    LexToken bufferToken ;       // buffer to allow 1-token lookahead
-    boolean bufferInUse = false ;
+    private LexToken bufferToken ;       // buffer to allow 1-token lookahead
+    private boolean bufferInUse = false ;
 
-    static final char EOF = (char)65535 ;
+    private static final char EOF = (char)65535 ;
 
     // Implementation of longest-match lexer as described in lectures.
     // We go for simplicity and clarity rather than maximum efficiency.
 
-    LexToken nextToken ()
+    private LexToken nextToken()
             throws LexError, StateOutOfRange, IOException {
         char c ;                 // current input character
-        String definite = "" ;   // characters up to last acceptance point
-        String maybe = "" ;      // characters since last acceptance point
+        StringBuilder definite = new StringBuilder() ;   // characters up to last acceptance point
+        StringBuilder maybe = new StringBuilder() ;      // characters since last acceptance point
         int acceptorIndex = -1 ; // array index of highest priority acceptor
-        boolean liveFound = false ;      // flags for use in
-        boolean acceptorFound = false ;  // iteration over acceptors
+        boolean liveFound, acceptorFound;      // flags for use in         // iteration over acceptors
 
-        for (int i=0; i<acceptors.length; i++) {
-            acceptors[i].reset() ;
-        } ;
+        for (DFA acceptor : acceptors) {
+            acceptor.reset();
+        }
         do {
             c = (char)(reader.read()) ;
+            if (CharTypes.isNewline(c)) {
+                row++;
+               // length = 0;
+            } else {
+               // length++;
+            }
             acceptorFound = false ;
             liveFound = false ;
             if (c != EOF) {
-                maybe += c ;
+                maybe.append(c) ;
                 for (int i=0; i<acceptors.length; i++) {
                     acceptors[i].processChar(c) ;
                     if (!acceptors[i].isDead()) {
@@ -54,10 +61,10 @@ public class GenLexer implements LexTokenStream {
                     if (!acceptorFound && acceptors[i].isAccepting()) {
                         acceptorFound = true ;
                         acceptorIndex = i ;
-                        definite += maybe ;
-                        maybe = "" ;
+                        definite.append(maybe) ;
+                        maybe.setLength(0);
                         reader.mark(10) ; // register backup point in input
-                    } ;
+                    }
                 }
             }
         } while (liveFound && c != EOF) ;
@@ -65,14 +72,14 @@ public class GenLexer implements LexTokenStream {
             // backup to last acceptance point and output token
             reader.reset() ;
             String theLexClass = acceptors[acceptorIndex].lexClass() ;
-            return new LexToken (definite, theLexClass) ;
-        } else if (c == EOF && maybe.equals("")) {
+            return new LexToken (definite.toString(), theLexClass, row, -1) ;
+        } else if (c == EOF && maybe.toString().equals("")) {
             // end of input already reached before nextToken was called
             reader.close() ;
             return null ;    // by convention, signifies end of input
         } else {
             reader.close() ;
-            throw new LexError(maybe) ;
+            throw new LexError(maybe.toString()) ;
         }
     }
 

@@ -1,11 +1,13 @@
 package ru.lang3.parser;
 
+import java.util.Arrays;
+
 public class STree implements Tree {
 
-    String label ;        // Convention: nonterminals begin with "#".
-    String value ;
-    String[] rhs ;
-    Tree[] children ;
+    private String label ;        // Convention: nonterminals begin with "#".
+    private String value ;
+    private String[] rhs ;
+    private Tree[] children ;
 
     public String getLabel() {return label ;}
     public boolean isTerminal() {return (label.charAt(0) != '#') ;}
@@ -19,4 +21,13 @@ public class STree implements Tree {
 
     // Constructors
     public STree (String label) {this.label = label ;}
+
+    @Override
+    public String toString() {
+        return "STree{" +
+                "label='" + label + '\'' +
+                ", value='" + value + '\'' +
+                ", rhs=" + Arrays.toString(rhs) +
+                '}';
+    }
 }

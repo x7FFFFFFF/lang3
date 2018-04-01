@@ -23,19 +23,21 @@ class LexerDemoTest {
     void main() throws IOException, LexError, StateOutOfRange, URISyntaxException {
 
         List<LexToken> etalon = Arrays.asList(
-        new LexToken("fib", "VAR"),
-                new LexToken("::", "SYM"),
-                new LexToken("Integer", "Integer"),
-                new LexToken("->", "SYM"),
-                new LexToken("Integer", "Integer"),
-                new LexToken(";", ";"),
-                new LexToken("fib", "VAR"),
-                new LexToken("n", "VAR"),
-                new LexToken("=", "SYM"),
-                new LexToken("n", "VAR"),
-                new LexToken("+", "SYM"),
-                new LexToken("10000", "NUM"),
-                new LexToken(";", ";"));
+       /* new LexToken("fib", "VAR", row, startPosition),
+                new LexToken("::", "SYM", row, startPosition),
+                new LexToken("Integer", "Integer", row, startPosition),
+                new LexToken("->", "SYM", row, startPosition),
+                new LexToken("Integer", "Integer", row, startPosition),
+                new LexToken(";", ";", row, startPosition),
+                new LexToken("fib", "VAR", row, startPosition),
+                new LexToken("n", "VAR", row, startPosition),
+                new LexToken("=", "SYM", row, startPosition),
+                new LexToken("n", "VAR", row, startPosition),
+                new LexToken("+", "SYM", row, startPosition),
+                new LexToken("10000", "NUM", row, startPosition),
+                new LexToken(";", ";", row, startPosition)*/
+
+        );
 
         final Iterator<LexToken> etalonIterator = etalon.iterator();
         final URL resource = LexerDemoTest.class.getResource("/L3_example2.txt");

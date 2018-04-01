@@ -27,7 +27,7 @@ public class CheckedSymbolLexer implements LexTokenStream {
 
     private static LexToken checkToken(LexToken t) throws UnknownSymbol {
 	if (t != null && t.lexClass().equals("SYM")) {
-	    return new LexToken (t.value(), checkString(t.value())) ;
+	    return new LexToken (t.value(), checkString(t.value()), t.getRow(), t.getStartPosition()) ;
 	} else return t ;
     }
 

@@ -8,14 +8,26 @@ import java.util.Objects;
 
 public class LexToken {
     private final String value, lexClass ;
-    public LexToken(String value, String lexClass) {
+    private final int row, startPosition;
+
+    public LexToken(String value, String lexClass, int row, int startPosition) {
         this.value = value ; this.lexClass = lexClass ;
+        this.row = row;
+        this.startPosition = startPosition;
     }
     public String value () {
         return this.value ;
     }
     public String lexClass () {
         return this.lexClass;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getStartPosition() {
+        return startPosition;
     }
 
     @Override
@@ -31,5 +43,13 @@ public class LexToken {
     public int hashCode() {
 
         return Objects.hash(value, lexClass);
+    }
+
+    @Override
+    public String toString() {
+        return "LexToken{" +
+                "value='" + value + '\'' +
+                ", lexClass='" + lexClass + '\'' +
+                '}';
     }
 }

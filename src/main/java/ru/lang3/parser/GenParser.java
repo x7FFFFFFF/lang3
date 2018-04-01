@@ -3,6 +3,8 @@ package ru.lang3.parser;
 import ru.lang3.lexer.LexToken;
 import ru.lang3.lexer.LexTokenStream;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 
 public abstract class GenParser implements Parser {
@@ -23,7 +25,7 @@ public abstract class GenParser implements Parser {
     public Tree parseTokenStreamAs
             (LexTokenStream tokStream, String nonterm)
             throws Exception {
-        Stack<STree> theStack = new Stack<>() ;
+        Deque<STree> theStack = new ArrayDeque<>() ;
         STree rootNode = new STree (nonterm) ;
         theStack.push(rootNode) ;
         STree currNode ;
@@ -50,8 +52,7 @@ public abstract class GenParser implements Parser {
                     if (currToken == null) {
                         throw new UnexpectedInput
                                 (currLabel, "end of input") ;
-                    } else throw new UnexpectedInput
-                            (currLabel, currLexClass) ;
+                    } else throw new UnexpectedInput(currLabel, currToken) ;
                 }
             } else {
                 // lookup expected nonterminal vs input token in table
@@ -68,10 +69,10 @@ public abstract class GenParser implements Parser {
                     }
                 } else {
                     // report error: blank entry in table
-                    throw new UnexpectedInput (currLabel, currLexClass) ;
+                    throw new UnexpectedInput (currLabel, currToken) ;
                 }
             }
-        } while (!theStack.empty()) ;
+        } while (!theStack.isEmpty()) ;
         LexToken next = tokStream.pullProperToken() ;
         if (next != null) {
             // non-fatal warning: parse completed before end of input
